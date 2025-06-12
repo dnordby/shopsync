@@ -1,0 +1,91 @@
+{%- liquid
+  for tag in product.tags
+    if tag contains 'mm:'
+      assign max_quantity = tag | split: ':' | last
+    endif
+  endfor
+-%}
+
+<form
+  class="product__form form"
+  id="product__form-bundle"
+  method="post"
+  action="/cart/add"
+  accepts-charset="UTF-8"
+  enctype="multipart/form-data"
+  novalidate="novalidate"
+  data-productHandle="{{ product.handle }}"
+>
+  <input type="hidden" value="{{ max_quantity }}" class="js-max-value">
+  <variant-selects
+    id="variant-selects-{{ section.id }}"
+    data-section="{{ section.id }}"
+    {{ block.shopify_attributes }}
+  >
+    {%- for option in product.options_with_values -%}
+      <p>{{ option.name }}:</p>
+
+      {% render 'bundle-option' for option.values as value, max: max_quantity %}
+    {%- endfor -%}
+  </variant-selects>
+
+  <div class="product-form__buttons">
+    <p class="error-message"></p>
+    <div class="product__form-group">
+      <label for="box-quantity"><b>Total Boxes:</b></label>
+      <input
+        type="number"
+        value="1"
+        name="{{ variant_id }}"
+        class="js-box-quantity"
+        id="box-quantity"
+        disabled
+      >
+      </div>
+    <button
+      id="ProductSubmitButton-{{ section.id }}"
+      type="submit"
+      name="submit"
+      class="product-form__submit button button--full-width js-bundle-submit"
+      disabled
+    >
+      <span>{{ 'products.product.add_to_cart' | t }}</span>
+      {%- render 'loading-spinner' -%}
+    </button>
+  </div>
+</form>
+
+{%- if show_pickup_availability -%}
+  {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
+
+  {%- assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities
+    | where: 'pick_up_enabled', true
+  -%}
+
+  <pickup-availability
+    class="product__pickup-availabilities quick-add-hidden"
+    {% if product.selected_or_first_available_variant.available and pick_up_availabilities.size > 0 %}
+      available
+    {% endif %}
+    data-root-url="{{ routes.root_url }}"
+    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+    data-has-only-default-variant="{{ product.has_only_default_variant }}"
+    data-product-page-color-scheme="gradient color-{{ section.settings.color_scheme }}"
+  >
+    <template>
+      <pickup-availability-preview class="pickup-availability-preview">
+        <span class="svg-wrapper">
+          {{- 'icon-unavailable.svg' | inline_asset_content -}}
+        </span>
+        <div class="pickup-availability-info">
+          <p class="caption-large">{{ 'products.product.pickup_availability.unavailable' | t }}</p>
+          <button class="pickup-availability-button link link--text underlined-link">
+            {{ 'products.product.pickup_availability.refresh' | t }}
+          </button>
+        </div>
+      </pickup-availability-preview>
+    </template>
+  </pickup-availability>
+
+  <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}

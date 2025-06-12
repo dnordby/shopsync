@@ -1,0 +1,139 @@
+{%- assign box_displayed = false -%}
+{%- assign box_display_string = '' -%}
+
+{%- for item in cart_items -%}
+  {%- assign box_id = item.properties._boxId -%}
+  {%- if box_display_string contains box_id -%}
+    {%- assign box_displayed = true -%}
+  {%- else -%}
+    {%- assign box_displayed = false -%}
+  {%- endif -%}
+
+  {%- unless box_displayed -%}
+    {%- assign delete_string = "" -%}
+    {%- assign running_price = 0 -%}
+    {%- for box_item in cart_items -%}
+      {%- if box_item.properties._boxId == box_id -%}
+        {%- assign total_line_price = box_item.price | times: box_item.quantity -%}
+        {%- assign running_price = running_price | plus: total_line_price -%}
+        {%- if delete_string == blank -%}
+          {%- assign delete_string = box_item.key -%}
+        {%- else -%}
+          {%- assign delete_string = delete_string | append: ',' | append: box_item.key -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- assign product_handle = item.properties._productHandle -%}
+    {%- assign box_display_string = box_display_string | append: box_id -%}
+    {%- if box_id and product_handle -%}
+      <tr class="cart-item" id="CartItem-{{ item.index | plus: 1 }}">
+        <td class="cart-item__media">
+          {% if item.product.featured_image %}
+            {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
+            <a href="{{ item.product.url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
+            <div class="cart-item__image-container gradient global-media-settings">
+              <img
+                src="{{ item.product.featured_image | image_url: width: 300 }}"
+                class="cart-item__image"
+                alt="{{ item.product.featured_image.alt | escape }}"
+                loading="lazy"
+                width="150"
+                height="{{ 150 | divided_by: item.product.featured_image.aspect_ratio | ceil }}"
+              >
+            </div>
+          {% endif %}
+        </td>
+
+        <td class="cart-item__details">
+          {%- if settings.show_vendor -%}
+            <p class="caption-with-letter-spacing">{{ item.vendor }}</p>
+          {%- endif -%}
+
+          <a href="{{ item.product.url }}" class="cart-item__name h4 break">{{ item.product.title | escape }}</a>
+
+          {%- if product.has_only_default_variant == false
+            or item.properties.size != 0
+            or item.selling_plan_allocation != null
+          -%}
+            <dl>
+              {%- for property in item.properties -%}
+                {%- assign property_first_char = property.first | slice: 0 -%}
+                {%- if property.last != blank and property_first_char != '_' -%}
+                  <div class="product-option">
+                    <dt>{{ property.first }}:</dt>
+                    <dd>
+                      {%- if property.last contains '/uploads/' -%}
+                        <a href="{{ property.last }}" class="link" target="_blank">
+                          {{ property.last | split: '/' | last }}
+                        </a>
+                      {%- else -%}
+                        {{ property.last }}
+                      {%- endif -%}
+                    </dd>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- for box_item in cart_items -%}
+                {%- if box_item.properties._boxId == box_id -%}
+                  <div class="product-option">
+                    <dt>
+                      {{ box_item.quantity }} x {{ box_item.title | split: '-' | last | strip }}:
+                      {{ box_item.price | times: box_item.quantity | money }}
+                    </dt>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </dl>
+          {%- endif -%}
+        </td>
+
+        <td class="cart-item__totals right medium-hide large-up-hide">
+          {%- render 'loading-spinner' -%}
+          <div class="cart-item__price-wrapper">
+            <span class="price price--end">
+              {{ running_price | money }}
+            </span>
+          </div>
+        </td>
+        {%- liquid
+          assign has_qty_rules = false
+          if item.variant.quantity_rule.increment > 1 or item.variant.quantity_rule.min > 1 or item.variant.quantity_rule.max != null
+            assign has_qty_rules = true
+          endif
+
+          assign has_vol_pricing = false
+          if item.variant.quantity_price_breaks.size > 0
+            assign has_vol_pricing = true
+          endif
+        -%}
+        <td class="cart-item__quantity{% if has_qty_rules or has_vol_pricing %} cart-item__quantity--info{% endif %}">
+          <p class="cart-item__quantity-bundle">1</p>
+          <cart-remove-button-bundle
+            class="bundle js-delete-bundle"
+            data-remove="{{ delete_string }}"
+          >
+            <span
+              class="button button--tertiary"
+              aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | escape }}"
+            >
+              <span class="svg-wrapper">
+                {{- 'icon-remove.svg' | inline_asset_content -}}
+              </span>
+            </span>
+          </cart-remove-button-bundle>
+        </td>
+
+        <td class="cart-item__totals right small-hide">
+          {%- render 'loading-spinner' -%}
+          <div class="cart-item__price-wrapper">
+            <span class="price price--end">
+              {{ running_price | money }}
+            </span>
+          </div>
+        </td>
+      </tr>
+    {%- endif -%}
+  {%- endunless -%}
+{%- endfor -%}

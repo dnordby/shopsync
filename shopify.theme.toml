@@ -1,4 +1,0 @@
-[environments.default]
-path = "./theme"
-live = true
-allow-live = true

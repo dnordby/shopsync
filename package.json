@@ -8,7 +8,7 @@
     "lint:css": "stylelint \"**/*.{css,scss}\"",
     "lint:html": "htmlhint \"**/*.html\"",
     "lint:liquid": "theme-check",
-    "dev": "concurrently \"vite\" \"cd theme && shopify theme dev\"",
+    "dev": "concurrently \"vite\" \"cd theme && shopify theme dev --live-reload hot-reload\"",
     "build": "vite build",
     "preview": "vite preview"
   },

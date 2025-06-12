@@ -1,0 +1,19 @@
+store: fpgde7-21.myshopify.com
+theme:
+  development:
+    theme_id: # This will be populated when you pull a theme
+    hot_reload: true
+    ignore_files:
+      - .git/*
+      - .github/*
+      - node_modules/*
+      - dist/*
+      - custom/*
+      - .shopify-cli.yml
+      - package.json
+      - package-lock.json
+      - vite.config.ts
+      - .eslintrc.json
+      - .prettierrc
+      - .stylelintrc
+      - .htmlhintrc

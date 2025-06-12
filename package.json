@@ -1,0 +1,30 @@
+{
+  "name": "jumpstart",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "lint": "npm-run-all --parallel lint:*",
+    "lint:ts": "eslint . --ext .ts,.tsx",
+    "lint:css": "stylelint \"**/*.{css,scss}\"",
+    "lint:html": "htmlhint \"**/*.html\"",
+    "lint:liquid": "theme-check",
+    "dev": "concurrently \"vite\" \"shopify theme dev --theme-editor-sync\"",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "htmlhint": "^1.5.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.5.3",
+    "stylelint": "^16.20.0",
+    "stylelint-config-standard": "^38.0.0",
+    "stylelint-config-standard-scss": "^15.0.1",
+    "vite": "^6.3.5"
+  }
+}

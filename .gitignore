@@ -32,20 +32,6 @@ yarn-error.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-.env/
-.venv/
-pip-log.txt
-pip-delete-this-directory.txt
-
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts

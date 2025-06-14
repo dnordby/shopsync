@@ -1,4 +1,4 @@
-store: fpgde7-21.myshopify.com
+store: .myshopify.com
 theme:
   development:
     theme_id: # This will be populated when you pull a theme

@@ -1,46 +1,10 @@
-# Shopify Theme Check configuration
-# The directory where theme folders are located (optional)
-root: dist
-
-# Configuration files are extensible
-extends:
-  - theme-check:recommended # or theme-check:all, theme-check:theme-app-extension
-  - "@acme/my-custom-checks/recommended.yml"
-  - "../configs/.theme-check.yml"
-
-# Paths to custom checks
-require:
-  - ./path/to/my_custom_check.js # path to file or module
-  - "@acme/my-custom-checks" # for node_modules checks
-
-# Paths to ignore (don't lint those!)
+root: theme
 ignore:
-  - "node_modules/**"
-  - "snippets/*-icon.liquid" # minimatch globs are supported
-
-# Disable a check
-TemplateLength:
-  enabled: false
-  severity: warning
-  ignore:
-    - templates/index.liquid
-  # Configure options for a check
-  max_length: 300
-
-# Enable a custom check
-MyCustomCheck:
-  enabled: true
-  severity: error
-
-# Exclude node_modules and build output
-exclude:
-  - node_modules
-  - dist
-  - build
-  - .git
-  - .vscode
-  # You can enable/disable checks or customize severity here
-  # For example:
-  # fail_on:
-  - error
-  - warning
+  - node_modules/**
+  - dist/**
+  - .git/**
+  - .vscode/**
+checks:
+  UnknownFilter:
+    ignore:
+      - inline_asset_content

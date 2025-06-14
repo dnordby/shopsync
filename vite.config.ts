@@ -23,8 +23,8 @@ const scssEntries = glob
 export default defineConfig({
   root: 'custom',
   build: {
-    outDir: '../dist/assets',
-    emptyOutDir: true,
+    outDir: '../theme/assets',
+    emptyOutDir: false,
     minify: false,
     sourcemap: true,
     watch: {
@@ -37,7 +37,8 @@ export default defineConfig({
       },
       output: {
         entryFileNames: (chunkInfo) => {
-          return chunkInfo.name.endsWith('.scss') ? '[name].css' : '[name].js';
+          const name = chunkInfo.name;
+          return name.endsWith('.scss') ? `${name}.css` : `${name}.js`;
         },
         chunkFileNames: '[name].js',
         assetFileNames: (assetInfo) => {

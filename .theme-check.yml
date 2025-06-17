@@ -4,7 +4,6 @@ ignore:
   - dist/**
   - .git/**
   - .vscode/**
-checks:
-  UnknownFilter:
-    ignore:
-      - inline_asset_content
+UnknownFilter:
+  ignore:
+    - inline_asset_content

@@ -1,0 +1,17 @@
+// custom.scss
+
+@import 'variables';
+
+body {
+  color: $text-color;
+  margin: $spacing-unit;
+
+  .button {
+    background-color: $primary-color;
+    color: white;
+    padding: $spacing-unit;
+    border: none;
+    border-radius: $border-radius;
+    box-shadow: $shadow-small;
+    cursor: pointer;
+    transition: background-color $transition-speed;

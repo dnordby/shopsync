@@ -1,6 +1,6 @@
 // custom.scss
 
-@import 'variables';
+@use "variables";
 
 body {
   color: $text-color;

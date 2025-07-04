@@ -4,13 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "npm-run-all --parallel lint:*",
+    "lint": "npm-run-all lint:*",
     "lint:ts": "eslint . --ext .ts,.tsx",
-    "lint:css": "stylelint \"**/*.{css,scss}\"",
     "lint:html": "htmlhint \"**/*.html\"",
     "lint:liquid": "theme-check",
+    "lint:css": "stylelint \"**/*.{css,scss}\"",
     "dev": "concurrently \"vite build --watch\" \"shopify theme dev --path theme --live-reload hot-reload\"",
     "build": "npm run lint && vite build && npm run postbuild",
+    "sync": "vite build && npm run postbuild",
     "preview": "vite preview",
     "postbuild": "postcss theme/assets/*.css --replace",
     "deploy": "npm run build && shopify theme push --theme-id $THEME_ID"

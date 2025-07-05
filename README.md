@@ -1,4 +1,4 @@
-# Jumpstart - Shopify Theme Development Boilerplate
+# Shopsync - Shopify Theme Development Boilerplate
 
 A development environment for Shopify themes with pre-configured linting, formatting, and development tools.
 
@@ -23,7 +23,7 @@ A development environment for Shopify themes with pre-configured linting, format
 1. Clone this repository:
    ```bash
    git clone <repository-url>
-   cd jumpstart
+   cd shopsync
    ```
 
 2. Install dependencies:

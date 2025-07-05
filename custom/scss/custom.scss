@@ -3,17 +3,17 @@
 @use "variables";
 
 body {
-  color: $text-color;
-  margin: $spacing-unit;
+  color: variables.$text-color;
+  margin: variables.$spacing-unit;
 
   .button {
-    background-color: $primary-color;
+    background-color: variables.$primary-color;
     color: white;
-    padding: $spacing-unit;
+    padding: variables.$spacing-unit;
     border: none;
-    border-radius: $border-radius;
-    box-shadow: $shadow-small;
+    border-radius: variables.$border-radius;
+    box-shadow: variables.$shadow-small;
     cursor: pointer;
-    transition: background-color $transition-speed;
+    transition: background-color variables.$transition-speed;
   }
 }

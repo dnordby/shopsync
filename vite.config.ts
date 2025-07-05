@@ -64,23 +64,10 @@ const themeCopyPlugin = (): Plugin => {
   };
 };
 
-// Get all TypeScript and SCSS entry points
-const jsEntries: Record<string, string> = glob
+// Get all TypeScript entry points
+const jsFiles = glob
   .sync('custom/js/**/*.ts')
-  .reduce((acc: Record<string, string>, file: string) => {
-    const name: string = file.replace('custom/js/', '').replace('.ts', '');
-    acc[name] = resolve(__dirname, file);
-    return acc;
-  }, {});
-
-const scssEntries: Record<string, string> = glob
-  .sync('custom/scss/**/*.scss')
-  .filter((file: string) => !file.includes('variables.scss')) // Exclude variables.scss
-  .reduce((acc: Record<string, string>, file: string) => {
-    const name: string = file.replace('custom/scss/', '').replace('.scss', '');
-    acc[name] = resolve(__dirname, file);
-    return acc;
-  }, {});
+  .map((file) => resolve(__dirname, file));
 
 export default defineConfig({
   root: 'custom',
@@ -91,26 +78,11 @@ export default defineConfig({
     minify: false,
     sourcemap: true,
     rollupOptions: {
-      input: {
-        ...jsEntries,
-        ...scssEntries,
-      },
+      input: jsFiles,
       output: {
-        entryFileNames: (chunkInfo) => {
-          const name = chunkInfo.name;
-          return name.endsWith('.scss') ? `${name}.css` : `${name}.js`;
-        },
+        entryFileNames: '[name].js',
         chunkFileNames: '[name].js',
-        assetFileNames: (assetInfo) => {
-          const info = assetInfo as { type: string };
-          if (
-            info.type === 'asset' &&
-            assetInfo.source.toString().includes('/*')
-          ) {
-            return '[name].css';
-          }
-          return '[name].[ext]';
-        },
+        assetFileNames: '[name].[ext]',
       },
     },
   },
@@ -129,14 +101,6 @@ export default defineConfig({
   optimizeDeps: {
     esbuildOptions: {
       target: 'es2020',
-    },
-  },
-  css: {
-    devSourcemap: true,
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@use "${resolve(__dirname, 'custom/scss/variables.scss')}" as *;`,
-      },
     },
   },
 });

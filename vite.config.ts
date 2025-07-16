@@ -26,7 +26,8 @@ const copyThemeFiles = (): void => {
       mkdirSync(targetDir, { recursive: true });
     }
 
-    if (existsSync(targetPath)) {
+    // Compare file contents if not in development mode
+    if (existsSync(targetPath) && process.env.NODE_ENV !== 'development') {
       // Compare file contents
       const sourceContent = readFileSync(sourcePath, 'utf8');
       const targetContent = readFileSync(targetPath, 'utf8');
@@ -40,7 +41,7 @@ const copyThemeFiles = (): void => {
       return;
     }
 
-    // Copy file (only if it doesn't exist)
+    // Copy file
     try {
       copyFileSync(sourcePath, targetPath);
       console.log(`Copied: ${file} -> ${targetPath}`);

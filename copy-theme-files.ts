@@ -8,6 +8,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const copyThemeFiles = (): void => {
+  const environment: string = process.env.NODE_ENV || 'dev';
+  const isDev: boolean = environment === 'dev';
   const targetThemeDir: string = resolve(__dirname, 'theme');
   const customFiles: string[] = glob.sync('custom/theme/**/*', { nodir: true });
 
@@ -25,8 +27,7 @@ const copyThemeFiles = (): void => {
       mkdirSync(targetDir, { recursive: true });
     }
 
-    if (existsSync(targetPath)) {
-      // Compare file contents
+    if (existsSync(targetPath) && !isDev) {
       const sourceContent: string = readFileSync(sourcePath, 'utf8');
       const targetContent: string = readFileSync(targetPath, 'utf8');
       if (sourceContent !== targetContent) {

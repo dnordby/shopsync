@@ -249,3 +249,10 @@ The following files are ignored during theme sync:
 ## License
 
 This project is licensed under the MIT License.
+
+
+## Roadmap
+
+ - Allow for multiple environments (Shopify themes / stores) to be configured.
+ - Developer workflow enhancements
+   - Please log any requests in [Issues](https://github.com/dnordby/shopsync/issues).

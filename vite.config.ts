@@ -7,6 +7,8 @@ import chalk from 'chalk';
 
 // Custom plugin to copy theme files
 const copyThemeFiles = (): void => {
+  const environment: string = process.env.NODE_ENV || 'dev';
+  const isDev: boolean = environment === 'dev';
   const targetThemeDir: string = resolve(__dirname, 'theme');
 
   // Get all files from custom/theme directory recursively
@@ -27,7 +29,7 @@ const copyThemeFiles = (): void => {
     }
 
     // Compare file contents if not in development mode
-    if (existsSync(targetPath) && process.env.NODE_ENV !== 'development') {
+    if (existsSync(targetPath) && !isDev) {
       // Compare file contents
       const sourceContent = readFileSync(sourcePath, 'utf8');
       const targetContent = readFileSync(targetPath, 'utf8');

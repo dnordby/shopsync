@@ -164,6 +164,7 @@ This project uses a separated build process for better reliability and performan
 
 - **TypeScript/JavaScript**: Built with Vite (fast, modern bundler)
 - **SCSS/CSS**: Compiled with Sass (advanced CSS preprocessing)
+  - Note: `variables.scss` is excluded from compilation (see SCSS Development section)
 - **Liquid/Theme Files**: Copied with custom TypeScript script
 - **Post-processing**: CSS optimization with PostCSS and cssnano
 
@@ -180,6 +181,46 @@ This project uses a separated build process for better reliability and performan
 - Use `@use` for modern Sass imports
 - Variables and mixins in `variables.scss`
 - Compiled to CSS in `theme/assets/`
+
+#### Special Case: `variables.scss`
+
+The `variables.scss` file is treated specially by the build process:
+
+- **Not compiled to CSS**: Unlike other SCSS files, `variables.scss` is excluded from compilation
+- **Automatically available**: The build process includes `custom/scss/` in the load paths, making `variables.scss` automatically available to all other SCSS files
+- **No manual imports needed**: You can use variables and mixins from `variables.scss` directly in any other SCSS file
+- **No output file**: This prevents creating an empty CSS file in your theme assets
+
+**Example usage:**
+
+```scss
+// custom/scss/variables.scss
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$border-radius: 4px;
+
+@mixin button-style {
+  padding: 0.5rem 1rem;
+  border-radius: $border-radius;
+  border: none;
+  cursor: pointer;
+}
+
+// custom/scss/components/button.scss
+// No @use statement needed - variables.scss is automatically available
+
+.button {
+  @include button-style;
+  background-color: $primary-color;
+  color: white;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
+```
+
+This approach keeps your variables organized and automatically available throughout your SCSS files without manual imports.
 
 ### Theme Check
 
@@ -250,9 +291,8 @@ The following files are ignored during theme sync:
 
 This project is licensed under the MIT License.
 
-
 ## Roadmap
 
- - Allow for multiple environments (Shopify themes / stores) to be configured.
- - Developer workflow enhancements
-   - Please log any requests in [Issues](https://github.com/dnordby/shopsync/issues).
+- Allow for multiple environments (Shopify themes / stores) to be configured.
+- Developer workflow enhancements
+  - Please log any requests in [Issues](https://github.com/dnordby/shopsync/issues).

@@ -3,6 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "description": "Shopify theme development toolkit with TypeScript, SCSS, and automated build processes",
+  "keywords": [
+    "shopify",
+    "theme",
+    "typescript",
+    "scss",
+    "vite",
+    "development"
+  ],
+  "author": "Daniel Nordby",
+  "license": "MIT",
   "scripts": {
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint . --ext .ts,.tsx",

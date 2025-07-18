@@ -1,3 +1,16 @@
+/**
+ * Theme Files Copy Script
+ *
+ * This script copies Liquid template files from the custom/theme directory to the
+ * theme directory. It handles:
+ * - Recursive copying of all theme files (templates, sections, snippets, etc.)
+ * - Environment-aware conflict detection (only in production)
+ * - Automatic directory creation
+ * - Conflict reporting for manual resolution
+ *
+ * Usage: npm run build:liquid
+ */
+
 import { resolve, dirname } from 'path';
 import { existsSync, mkdirSync, copyFileSync, readFileSync } from 'fs';
 import glob from 'glob';
@@ -28,6 +41,7 @@ const copyThemeFiles = (): void => {
     }
 
     if (existsSync(targetPath) && !isDev) {
+      // Compare file contents if not in development mode
       const sourceContent: string = readFileSync(sourcePath, 'utf8');
       const targetContent: string = readFileSync(targetPath, 'utf8');
       if (sourceContent !== targetContent) {

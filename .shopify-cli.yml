@@ -1,14 +1,22 @@
+# Shopify CLI configuration for theme development
+# Configures development server, hot reload, and file watching
+
 store: $STORE.myshopify.com
 theme:
   development:
     theme_id: $THEME_ID
     hot_reload: true
     ignore_files:
+      # Version control and build artifacts
       - .git/*
       - .github/*
       - node_modules/*
       - dist/*
+
+      # Source files (handled by build process)
       - custom/*
+
+      # Configuration files (not needed in theme)
       - .shopify-cli.yml
       - package.json
       - package-lock.json

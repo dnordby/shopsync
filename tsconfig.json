@@ -1,4 +1,6 @@
 {
+  // TypeScript configuration for Shopify theme development
+  // This config supports modern ES modules, strict type checking, and path aliases
   "compilerOptions": {
     "baseUrl": ".",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -28,7 +30,7 @@
       "~api/*": ["app/api/*"],
       "~prisma/*": ["prisma/*"],
       "~services/*": ["services/*"],
-      "~actions/*": ["actions/*"],
+      "~actions/*": ["actions/*"]
     },
     "target": "ES2017"
   },

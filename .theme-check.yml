@@ -1,9 +1,14 @@
+# Theme Check configuration for Shopify Liquid validation
+# Validates Liquid templates, JSON templates, and Shopify-specific syntax
+
 root: theme
 ignore:
   - node_modules/**
   - dist/**
   - .git/**
   - .vscode/**
+
+# Ignore inline asset content warnings for development flexibility
 UnknownFilter:
   ignore:
     - inline_asset_content

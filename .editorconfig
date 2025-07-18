@@ -1,4 +1,7 @@
 # EditorConfig is awesome: https://EditorConfig.org
+#
+# This file ensures consistent coding style across different editors and IDEs
+# for the Shopify theme development project.
 
 # top-most EditorConfig file
 root = true
